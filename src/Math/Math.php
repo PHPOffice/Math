@@ -2,6 +2,8 @@
 
 namespace PhpOffice\Math;
 
+use PhpOffice\Math\Element\AbstractElement;
+
 class Math
 {
     /**
@@ -32,7 +34,7 @@ class Math
         $this->elements = array_filter($this->elements, function ($child) use ($element) {
             return $child != $element;
         });
-        $component->setParent(null);
+        $element->setParent(null);
 
         return $this;
     }

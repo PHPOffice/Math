@@ -34,39 +34,64 @@ class MathMLTest extends TestCase
         $this->assertCount(1, $elements);
         $this->assertInstanceOf(Element\Row::class, $elements[0]);
 
+        /** @var Element\Row $element */
         $element = $elements[0];
         $subElements = $element->getElements();
         $this->assertCount(9, $subElements);
 
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[0]);
-        $this->assertEquals('a', $subElements[0]->getValue());
+        /** @var Element\Identifier $subElement */
+        $subElement = $subElements[0];
+        $this->assertInstanceOf(Element\Identifier::class, $subElement);
+        $this->assertEquals('a', $subElement->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $subElements[1]);
-        $this->assertEquals('InvisibleTimes', $subElements[1]->getValue());
+        /** @var Element\Identifier $subElement */
+        $subElement = $subElements[1];
+        $this->assertInstanceOf(Element\Operator::class, $subElement);
+        $this->assertEquals('InvisibleTimes', $subElement->getValue());
 
+        /** @var Element\Superscript $subElement */
+        $subElement = $subElements[2];
         $this->assertInstanceOf(Element\Superscript::class, $subElements[2]);
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[2]->getBase());
-        $this->assertEquals('x', $subElements[2]->getBase()->getValue());
-        $this->assertInstanceOf(Element\Numeric::class, $subElements[2]->getSuperscript());
-        $this->assertEquals(2, $subElements[2]->getSuperscript()->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $subElements[3]);
-        $this->assertEquals('+', $subElements[3]->getValue());
+        /** @var Element\Identifier $base */
+        $base = $subElement->getBase();
+        $this->assertInstanceOf(Element\Identifier::class, $base);
+        $this->assertEquals('x', $base->getValue());
 
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[4]);
-        $this->assertEquals('b', $subElements[4]->getValue());
+        /** @var Element\Numeric $superscript */
+        $superscript = $subElement->getSuperscript();
+        $this->assertInstanceOf(Element\Numeric::class, $superscript);
+        $this->assertEquals(2, $superscript->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $subElements[5]);
-        $this->assertEquals('InvisibleTimes', $subElements[5]->getValue());
+        /** @var Element\Operator $subElement */
+        $subElement = $subElements[3];
+        $this->assertInstanceOf(Element\Operator::class, $subElement);
+        $this->assertEquals('+', $subElement->getValue());
 
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[6]);
-        $this->assertEquals('x', $subElements[6]->getValue());
+        /** @var Element\Identifier $subElement */
+        $subElement = $subElements[4];
+        $this->assertInstanceOf(Element\Identifier::class, $subElement);
+        $this->assertEquals('b', $subElement->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $subElements[7]);
-        $this->assertEquals('+', $subElements[7]->getValue());
+        /** @var Element\Operator $subElement */
+        $subElement = $subElements[5];
+        $this->assertInstanceOf(Element\Operator::class, $subElement);
+        $this->assertEquals('InvisibleTimes', $subElement->getValue());
 
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[8]);
-        $this->assertEquals('c', $subElements[8]->getValue());
+        /** @var Element\Identifier $subElement */
+        $subElement = $subElements[6];
+        $this->assertInstanceOf(Element\Identifier::class, $subElement);
+        $this->assertEquals('x', $subElement->getValue());
+
+        /** @var Element\Operator $subElement */
+        $subElement = $subElements[7];
+        $this->assertInstanceOf(Element\Operator::class, $subElement);
+        $this->assertEquals('+', $subElement->getValue());
+
+        /** @var Element\Identifier $subElement */
+        $subElement = $subElements[8];
+        $this->assertInstanceOf(Element\Identifier::class, $subElement);
+        $this->assertEquals('c', $subElement->getValue());
     }
 
     /**
@@ -97,20 +122,33 @@ class MathMLTest extends TestCase
         $this->assertCount(1, $elements);
         $this->assertInstanceOf(Element\Fraction::class, $elements[0]);
 
+        /** @var Element\Fraction $element */
         $element = $elements[0];
 
         $this->assertInstanceOf(Element\Fraction::class, $element->getNumerator());
+        /** @var Element\Fraction $subElement */
         $subElement = $element->getNumerator();
-        $this->assertInstanceOf(Element\Identifier::class, $subElement->getNumerator());
-        $this->assertEquals('a', $subElement->getNumerator()->getValue());
-        $this->assertInstanceOf(Element\Identifier::class, $subElement->getDenominator());
-        $this->assertEquals('b', $subElement->getDenominator()->getValue());
+
+        /** @var Element\Identifier $numerator */
+        $numerator = $subElement->getNumerator();
+        $this->assertInstanceOf(Element\Identifier::class, $numerator);
+        $this->assertEquals('a', $numerator->getValue());
+        /** @var Element\Identifier $denominator */
+        $denominator = $subElement->getDenominator();
+        $this->assertInstanceOf(Element\Identifier::class, $denominator);
+        $this->assertEquals('b', $denominator->getValue());
 
         $this->assertInstanceOf(Element\Fraction::class, $element->getDenominator());
+        /** @var Element\Fraction $subElement */
         $subElement = $element->getDenominator();
-        $this->assertInstanceOf(Element\Identifier::class, $subElement->getNumerator());
-        $this->assertEquals('c', $subElement->getNumerator()->getValue());
-        $this->assertInstanceOf(Element\Identifier::class, $subElement->getDenominator());
-        $this->assertEquals('d', $subElement->getDenominator()->getValue());
+
+        /** @var Element\Identifier $numerator */
+        $numerator = $subElement->getNumerator();
+        $this->assertInstanceOf(Element\Identifier::class, $numerator);
+        $this->assertEquals('c', $numerator->getValue());
+        /** @var Element\Identifier $denominator */
+        $denominator = $subElement->getDenominator();
+        $this->assertInstanceOf(Element\Identifier::class, $denominator);
+        $this->assertEquals('d', $denominator->getValue());
     }
 }
