@@ -35,6 +35,11 @@ jobs:
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
       -   name: Run PHPUnit
+          if: matrix.php != '7.1'
+          run: ./vendor/bin/phpunit -c phpunit.xml.dist
+
+      -   name: Run PHPUnit (w CodeCoverage)
+          if: matrix.php == '7.1'
           run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
 
       -   name: Upload coverage results to Coveralls
