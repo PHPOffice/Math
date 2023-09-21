@@ -33,15 +33,24 @@ class OfficeMathMLTest extends TestCase
         $this->assertCount(1, $elements);
         $this->assertInstanceOf(Element\Row::class, $elements[0]);
 
-        $subElements = $elements[0]->getElements();
+        /** @var Element\Row $element */
+        $element = $elements[0];
+        $subElements = $element->getElements();
         $this->assertCount(1, $subElements);
         $this->assertInstanceOf(Element\Fraction::class, $subElements[0]);
 
-        $this->assertInstanceOf(Element\Identifier::class, $subElements[0]->getNumerator());
-        $this->assertEquals('π', $subElements[0]->getNumerator()->getValue());
+        /** @var Element\Fraction $subElement */
+        $subElement = $subElements[0];
 
-        $this->assertInstanceOf(Element\Numeric::class, $subElements[0]->getDenominator());
-        $this->assertEquals(2, $subElements[0]->getDenominator()->getValue());
+        /** @var Element\Identifier $numerator */
+        $numerator = $subElement->getNumerator();
+        $this->assertInstanceOf(Element\Identifier::class, $numerator);
+        $this->assertEquals('π', $numerator->getValue());
+
+        /** @var Element\Numeric $denominator */
+        $denominator = $subElement->getDenominator();
+        $this->assertInstanceOf(Element\Numeric::class, $denominator);
+        $this->assertEquals(2, $denominator->getValue());
     }
 
     /**
@@ -89,22 +98,36 @@ class OfficeMathMLTest extends TestCase
         $elements = $math->getElements();
         $this->assertCount(5, $elements);
 
-        $this->assertInstanceOf(Element\Fraction::class, $elements[0]);
-        $this->assertInstanceOf(Element\Identifier::class, $elements[0]->getNumerator());
-        $this->assertEquals('π', $elements[0]->getNumerator()->getValue());
-        $this->assertInstanceOf(Element\Numeric::class, $elements[0]->getDenominator());
-        $this->assertEquals(2, $elements[0]->getDenominator()->getValue());
+        /** @var Element\Fraction $element */
+        $element = $elements[0];
+        $this->assertInstanceOf(Element\Fraction::class, $element);
+        /** @var Element\Identifier $numerator */
+        $numerator = $element->getNumerator();
+        $this->assertInstanceOf(Element\Identifier::class, $numerator);
+        $this->assertEquals('π', $numerator->getValue());
+        /** @var Element\Numeric $denominator */
+        $denominator = $element->getDenominator();
+        $this->assertInstanceOf(Element\Numeric::class, $denominator);
+        $this->assertEquals(2, $denominator->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $elements[1]);
-        $this->assertEquals('+', $elements[1]->getValue());
+        /** @var Element\Operator $element */
+        $element = $elements[1];
+        $this->assertInstanceOf(Element\Operator::class, $element);
+        $this->assertEquals('+', $element->getValue());
 
-        $this->assertInstanceOf(Element\Identifier::class, $elements[2]);
-        $this->assertEquals('a', $elements[2]->getValue());
+        /** @var Element\Identifier $element */
+        $element = $elements[2];
+        $this->assertInstanceOf(Element\Identifier::class, $element);
+        $this->assertEquals('a', $element->getValue());
 
-        $this->assertInstanceOf(Element\Operator::class, $elements[3]);
-        $this->assertEquals('∗', $elements[3]->getValue());
+        /** @var Element\Operator $element */
+        $element = $elements[3];
+        $this->assertInstanceOf(Element\Operator::class, $element);
+        $this->assertEquals('∗', $element->getValue());
 
-        $this->assertInstanceOf(Element\Numeric::class, $elements[4]);
-        $this->assertEquals(2, $elements[4]->getValue());
+        /** @var Element\Numeric $element */
+        $element = $elements[4];
+        $this->assertInstanceOf(Element\Numeric::class, $element);
+        $this->assertEquals(2, $element->getValue());
     }
 }

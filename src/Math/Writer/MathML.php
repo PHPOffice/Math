@@ -69,10 +69,21 @@ class MathML implements WriterInterface
             return;
         }
 
-        // Element\AbstractElement
-        $this->output->startElement($this->getElementTagName($element));
-        $this->output->text((string) $element->getValue());
-        $this->output->endElement();
+        if ($element instanceof Element\Identifier
+          || $element instanceof Element\Numeric
+          || $element instanceof Element\Operator) {
+            $this->output->startElement($this->getElementTagName($element));
+            $this->output->text((string) $element->getValue());
+            $this->output->endElement();
+
+            return;
+        }
+
+        throw new Exception(sprintf(
+            '%s : The class `%s` is not implemented',
+            __METHOD__,
+            get_class($element)
+        ));
     }
 
     protected function getElementTagName(Element\AbstractElement $element): string

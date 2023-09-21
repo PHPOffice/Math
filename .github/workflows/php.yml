@@ -30,6 +30,36 @@ jobs:
       -   name: Run PHPCSFixer
           run: php-cs-fixer fix --dry-run --diff
 
+  phpstan:
+    name: PHP Static Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: 
+            - '7.1'
+            - '7.2'
+            - '7.3'
+            - '7.4'
+            - '8.0'
+            - '8.1'
+            - '8.2'
+            - '8.3'
+    steps:
+        -   name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: ${{ matrix.php }}
+                extensions: xml
+
+        -   uses: actions/checkout@v2
+
+        -   name: Composer Install
+            run: composer install --ansi --prefer-dist --no-interaction --no-progress
+
+        -   name: Run phpstan
+            run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
+
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-latest

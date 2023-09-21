@@ -4,6 +4,7 @@ namespace PhpOffice\Math\Reader;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use DOMXPath;
 use Exception;
 use PhpOffice\Math\Element;
@@ -41,10 +42,13 @@ class MathML implements ReaderInterface
         return $this->math;
     }
 
-    protected function parseNode(?DOMElement $nodeRowElement, $parent): void
+    /**
+     * @param Math|Element\AbstractGroupElement $parent
+     */
+    protected function parseNode(?DOMNode $nodeRowElement, $parent): void
     {
         $this->xpath = new DOMXpath($this->dom);
-        foreach ($this->xpath->query('*', $nodeRowElement) as $nodeElement) {
+        foreach ($this->xpath->query('*', $nodeRowElement) ?: [] as $nodeElement) {
             $element = $this->getElement($nodeElement);
             $parent->add($element);
 
@@ -54,14 +58,14 @@ class MathML implements ReaderInterface
         }
     }
 
-    protected function getElement(DOMElement $nodeElement): Element\AbstractElement
+    protected function getElement(DOMNode $nodeElement): Element\AbstractElement
     {
         $nodeValue = trim($nodeElement->nodeValue);
         switch ($nodeElement->nodeName) {
             case 'mfrac':
                 $element = new Element\Fraction();
                 $nodeList = $this->xpath->query('*', $nodeElement);
-                if ($nodeList->length == 2) {
+                if ($nodeList && $nodeList->length == 2) {
                     $element
                         ->setNumerator($this->getElement($nodeList->item(0)))
                         ->setDenominator($this->getElement($nodeList->item(1)));
@@ -71,13 +75,15 @@ class MathML implements ReaderInterface
             case 'mi':
                 return new Element\Identifier($nodeValue);
             case 'mn':
-                return new Element\Numeric($nodeValue);
+                return new Element\Numeric(floatval($nodeValue));
             case 'mo':
                 if (empty($nodeValue)) {
                     $nodeList = $this->xpath->query('*', $nodeElement);
                     if (
-                        $nodeList->length == 1
+                        $nodeList
+                        && $nodeList->length == 1
                         && $nodeList->item(0)->nodeName == 'mchar'
+                        && $nodeList->item(0) instanceof DOMElement
                         && $nodeList->item(0)->hasAttribute('name')
                     ) {
                         $nodeValue = $nodeList->item(0)->getAttribute('name');
@@ -90,7 +96,7 @@ class MathML implements ReaderInterface
             case 'msup':
                 $element = new Element\Superscript();
                 $nodeList = $this->xpath->query('*', $nodeElement);
-                if ($nodeList->length == 2) {
+                if ($nodeList && $nodeList->length == 2) {
                     $element
                         ->setBase($this->getElement($nodeList->item(0)))
                         ->setSuperscript($this->getElement($nodeList->item(1)));

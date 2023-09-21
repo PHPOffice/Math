@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\PhpOffice\Math\Writer;
 
 use DOMDocument;
+use LibXMLError;
 use PHPUnit\Framework\TestCase;
 
 class WriterTestCase extends TestCase
@@ -15,21 +16,27 @@ class WriterTestCase extends TestCase
         $dom->loadXML($content);
         $xmlSource = $dom->saveXML();
 
-        $dom->loadXML($xmlSource);
-        $dom->schemaValidate(dirname(__DIR__, 2) . '/resources/schema/mathml3/mathml3.xsd');
+        if (is_string($xmlSource)) {
+            $dom->loadXML($xmlSource);
+            $dom->schemaValidate(dirname(__DIR__, 2) . '/resources/schema/mathml3/mathml3.xsd');
 
-        $error = libxml_get_last_error();
-        if ($error instanceof LibXMLError) {
-            $this->failXmlError($error, $fileName, $xmlSource);
-        } else {
-            $this->assertTrue(true);
+            $error = libxml_get_last_error();
+            if ($error instanceof LibXMLError) {
+                $this->failXmlError($error, $xmlSource);
+            } else {
+                $this->assertTrue(true);
+            }
+
+            return;
         }
+
+        $this->fail(sprintf('The XML is not valid : %s', $content));
     }
 
     /**
      * @param array<string, string> $params
      */
-    protected function failXmlError(LibXMLError $error, string $fileName, string $source, array $params = []): void
+    protected function failXmlError(LibXMLError $error, string $source, array $params = []): void
     {
         switch ($error->level) {
             case LIBXML_ERR_WARNING:
@@ -65,9 +72,8 @@ class WriterTestCase extends TestCase
             }
         }
         $this->fail(sprintf(
-            "Validation %s :\n - File : %s\n - Line : %s\n - Message : %s - Lines :\n%s%s",
+            "Validation %s :\n - - Line : %s\n - Message : %s - Lines :\n%s%s",
             $errorType,
-            $fileName,
             $error->line,
             $error->message,
             implode(PHP_EOL, $lines),
