@@ -49,6 +49,17 @@ class MathML implements ReaderInterface
     {
         $this->xpath = new DOMXpath($this->dom);
         foreach ($this->xpath->query('*', $nodeRowElement) ?: [] as $nodeElement) {
+            if ($parent instanceof Element\Semantics
+                && $nodeElement instanceof DOMElement
+                && $nodeElement->nodeName == 'annotation') {
+                $parent->addAnnotation(
+                    $nodeElement->getAttribute('encoding'),
+                    trim($nodeElement->nodeValue)
+                );
+
+                continue;
+            }
+
             $element = $this->getElement($nodeElement);
             $parent->add($element);
 
@@ -103,6 +114,8 @@ class MathML implements ReaderInterface
                 }
 
                 return $element;
+            case 'semantics':
+                return new Element\Semantics();
             default:
                 throw new Exception(sprintf(
                     '%s : The tag `%s` is not implemented',

@@ -151,4 +151,49 @@ class MathMLTest extends TestCase
         $this->assertInstanceOf(Element\Identifier::class, $denominator);
         $this->assertEquals('d', $denominator->getValue());
     }
+
+    /**
+     * @covers \MathML::read
+     */
+    public function testReadSemantics(): void
+    {
+        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <semantics>
+                <mrow>
+                    <mfrac>
+                        <mi>π</mi>
+                        <mn>2</mn>
+                    </mfrac>
+                    <mo stretchy="false">+</mo>
+                    <mrow>
+                        <mi>a</mi>
+                        <mo stretchy="false">∗</mo>
+                        <mn>2</mn>
+                    </mrow>
+                </mrow>
+                <annotation encoding="StarMath 5.0">{π} over {2}  + { a } * 2 </annotation>
+            </semantics>
+        </math>';
+
+        $reader = new MathML();
+        $math = $reader->read($content);
+        $this->assertInstanceOf(Math::class, $math);
+
+        $elements = $math->getElements();
+        $this->assertCount(1, $elements);
+        $this->assertInstanceOf(Element\Semantics::class, $elements[0]);
+
+        /** @var Element\Semantics $element */
+        $element = $elements[0];
+
+        // Check MathML
+        $subElements = $element->getElements();
+        $this->assertCount(1, $subElements);
+        $this->assertInstanceOf(Element\Row::class, $subElements[0]);
+
+        // Check Annotation
+        $this->assertCount(1, $element->getAnnotations());
+        $this->assertEquals('{π} over {2}  + { a } * 2', $element->getAnnotation('StarMath 5.0'));
+    }
 }
