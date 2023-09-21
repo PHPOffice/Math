@@ -1,0 +1,47 @@
+name: PHPOffice/Math
+on: 
+    push:
+        branches:
+            - master
+    pull_request:
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: 
+            - '7.1'
+            - '7.2'
+            - '7.3'
+            - '7.4'
+            - '8.0'
+            - '8.1'
+            - '8.2'
+            - '8.3'
+    steps:
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+              php-version: ${{ matrix.php }}
+              extensions: xml
+              coverage: ${{ (matrix.php == '7.1') && 'xdebug' || 'none' }}
+
+      -   uses: actions/checkout@v2
+
+      -   name: Install dependencies
+          run: composer install --ansi --prefer-dist --no-interaction --no-progress
+
+      -   name: Run PHPUnit
+          run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
+
+      -   name: Upload coverage results to Coveralls
+          if: matrix.php == '7.1'
+          env:
+            COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
+            chmod +x php-coveralls.phar
+            php php-coveralls.phar --coverage_clover=build/clover.xml --json_path=build/coveralls-upload.json -vvv
