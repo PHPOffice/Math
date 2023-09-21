@@ -6,8 +6,8 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Exception;
-use PhpOffice\Math\Math;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Math;
 
 class MathML implements ReaderInterface
 {
@@ -66,6 +66,7 @@ class MathML implements ReaderInterface
                         ->setNumerator($this->getElement($nodeList->item(0)))
                         ->setDenominator($this->getElement($nodeList->item(1)));
                 }
+
                 return $element;
             case 'mi':
                 return new Element\Identifier($nodeValue);
@@ -75,13 +76,14 @@ class MathML implements ReaderInterface
                 if (empty($nodeValue)) {
                     $nodeList = $this->xpath->query('*', $nodeElement);
                     if (
-                        $nodeList->length == 1 
+                        $nodeList->length == 1
                         && $nodeList->item(0)->nodeName == 'mchar'
                         && $nodeList->item(0)->hasAttribute('name')
                     ) {
                         $nodeValue = $nodeList->item(0)->getAttribute('name');
                     }
                 }
+
                 return new Element\Operator($nodeValue);
             case 'mrow':
                 return new Element\Row();
@@ -93,11 +95,12 @@ class MathML implements ReaderInterface
                         ->setBase($this->getElement($nodeList->item(0)))
                         ->setSuperscript($this->getElement($nodeList->item(1)));
                 }
+
                 return $element;
-            default: 
+            default:
                 throw new Exception(sprintf(
                     '%s : The tag `%s` is not implemented',
-                    __METHOD__, 
+                    __METHOD__,
                     $nodeElement->nodeName
                 ));
         }

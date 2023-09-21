@@ -11,6 +11,7 @@ class Math
 
     /**
      * @param Element\AbstractElement $element
+     *
      * @return self
      */
     public function add(Element\AbstractElement $element): self
@@ -23,6 +24,7 @@ class Math
 
     /**
      * @param Element\AbstractElement $element
+     *
      * @return self
      */
     public function remove(Element\AbstractElement $element): self

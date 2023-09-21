@@ -7,7 +7,7 @@ namespace Tests\PhpOffice\Math\Writer;
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
 
-class WriterTestCase extends TestCase 
+class WriterTestCase extends TestCase
 {
     public function assertIsSchemaMathMLValid(string $content): void
     {

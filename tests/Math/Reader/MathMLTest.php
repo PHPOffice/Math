@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\PhpOffice\Math\Reader;
 
-use PHPUnit\Framework\TestCase;
 use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Reader\MathML;
+use PHPUnit\Framework\TestCase;
 
-class MathMLTest extends TestCase 
+class MathMLTest extends TestCase
 {
     /**
-     * @covers MathML::read
+     * @covers \MathML::read
      */
     public function testReadBasic(): void
     {
@@ -70,7 +70,7 @@ class MathMLTest extends TestCase
     }
 
     /**
-     * @covers MathML::read
+     * @covers \MathML::read
      */
     public function testReadFraction(): void
     {

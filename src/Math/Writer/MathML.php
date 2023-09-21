@@ -3,8 +3,8 @@
 namespace PhpOffice\Math\Writer;
 
 use Exception;
-use PhpOffice\Math\Math;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Math;
 use XMLWriter;
 
 class MathML implements WriterInterface
@@ -14,6 +14,7 @@ class MathML implements WriterInterface
 
     /**
      * @param Math $math
+     *
      * @return string
      */
     public function write(Math $math): string
@@ -44,6 +45,7 @@ class MathML implements WriterInterface
                 $this->writeElementItem($childElement);
             }
             $this->output->endElement();
+
             return;
         }
 
@@ -53,6 +55,7 @@ class MathML implements WriterInterface
             $this->writeElementItem($element->getBase());
             $this->writeElementItem($element->getSuperscript());
             $this->output->endElement();
+
             return;
         }
 
@@ -62,6 +65,7 @@ class MathML implements WriterInterface
             $this->writeElementItem($element->getNumerator());
             $this->writeElementItem($element->getDenominator());
             $this->output->endElement();
+
             return;
         }
 
@@ -80,12 +84,11 @@ class MathML implements WriterInterface
         if ($element instanceof Element\AbstractGroupElement) {
             throw new Exception(sprintf(
                 '%s : The element of the class `%s` has no tag name',
-                __METHOD__, 
+                __METHOD__,
                 get_class($element)
             ));
         }
 
-        //
         if ($element instanceof Element\Superscript) {
             return 'msup';
         }
@@ -101,10 +104,10 @@ class MathML implements WriterInterface
         if ($element instanceof Element\Operator) {
             return 'mo';
         }
-        
+
         throw new Exception(sprintf(
             '%s : The element of the class `%s` has no tag name',
-            __METHOD__, 
+            __METHOD__,
             get_class($element)
         ));
     }

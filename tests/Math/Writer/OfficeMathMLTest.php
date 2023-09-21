@@ -8,10 +8,10 @@ use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Writer\OfficeMathML;
 
-class OfficeMathMLTest extends WriterTestCase 
+class OfficeMathMLTest extends WriterTestCase
 {
     /**
-     * @covers OfficeMathML::write
+     * @covers \OfficeMathML::write
      */
     public function testWriteFraction(): void
     {
@@ -26,7 +26,7 @@ class OfficeMathMLTest extends WriterTestCase
 
         $writer = new OfficeMathML();
         $output = $writer->write($math);
-        
+
         $expected = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">'
             . '<m:oMath>'
             . '<m:f>'

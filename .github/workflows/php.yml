@@ -6,6 +6,30 @@ on:
     pull_request:
 
 jobs:
+  php-cs-fixer:
+    name: PHP CS Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: xml
+
+      - uses: actions/checkout@v2
+
+      -   name: Validate composer config
+          run: composer validate --strict
+
+      -   name: Composer Install
+          run: composer global require friendsofphp/php-cs-fixer
+
+      -   name: Add environment path
+          run: export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+      -   name: Run PHPCSFixer
+          run: php-cs-fixer fix --dry-run --diff
+
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-latest

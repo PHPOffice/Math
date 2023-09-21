@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\PhpOffice\Math\Reader;
 
-use PHPUnit\Framework\TestCase;
 use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Reader\OfficeMathML;
+use PHPUnit\Framework\TestCase;
 
-class OfficeMathMLTest extends TestCase 
+class OfficeMathMLTest extends TestCase
 {
     /**
-     * @covers OfficeMathML::read
+     * @covers \OfficeMathML::read
      */
     public function testRead(): void
     {
@@ -44,9 +44,8 @@ class OfficeMathMLTest extends TestCase
         $this->assertEquals(2, $subElements[0]->getDenominator()->getValue());
     }
 
-
     /**
-     * @covers OfficeMathML::read
+     * @covers \OfficeMathML::read
      */
     public function testReadWithWTag(): void
     {
@@ -83,29 +82,29 @@ class OfficeMathMLTest extends TestCase
           </m:r>
         </m:oMath>';
 
-      $reader = new OfficeMathML();
-      $math = $reader->read($content);
-      $this->assertInstanceOf(Math::class, $math);
+        $reader = new OfficeMathML();
+        $math = $reader->read($content);
+        $this->assertInstanceOf(Math::class, $math);
 
-      $elements = $math->getElements();
-      $this->assertCount(5, $elements);
+        $elements = $math->getElements();
+        $this->assertCount(5, $elements);
 
-      $this->assertInstanceOf(Element\Fraction::class, $elements[0]);
-      $this->assertInstanceOf(Element\Identifier::class, $elements[0]->getNumerator());
-      $this->assertEquals('π', $elements[0]->getNumerator()->getValue());
-      $this->assertInstanceOf(Element\Numeric::class, $elements[0]->getDenominator());
-      $this->assertEquals(2, $elements[0]->getDenominator()->getValue());
+        $this->assertInstanceOf(Element\Fraction::class, $elements[0]);
+        $this->assertInstanceOf(Element\Identifier::class, $elements[0]->getNumerator());
+        $this->assertEquals('π', $elements[0]->getNumerator()->getValue());
+        $this->assertInstanceOf(Element\Numeric::class, $elements[0]->getDenominator());
+        $this->assertEquals(2, $elements[0]->getDenominator()->getValue());
 
-      $this->assertInstanceOf(Element\Operator::class, $elements[1]);
-      $this->assertEquals('+', $elements[1]->getValue());
+        $this->assertInstanceOf(Element\Operator::class, $elements[1]);
+        $this->assertEquals('+', $elements[1]->getValue());
 
-      $this->assertInstanceOf(Element\Identifier::class, $elements[2]);
-      $this->assertEquals('a', $elements[2]->getValue());
+        $this->assertInstanceOf(Element\Identifier::class, $elements[2]);
+        $this->assertEquals('a', $elements[2]->getValue());
 
-      $this->assertInstanceOf(Element\Operator::class, $elements[3]);
-      $this->assertEquals('∗', $elements[3]->getValue());
+        $this->assertInstanceOf(Element\Operator::class, $elements[3]);
+        $this->assertEquals('∗', $elements[3]->getValue());
 
-      $this->assertInstanceOf(Element\Numeric::class, $elements[4]);
-      $this->assertEquals(2, $elements[4]->getValue());
+        $this->assertInstanceOf(Element\Numeric::class, $elements[4]);
+        $this->assertEquals(2, $elements[4]->getValue());
     }
 }
