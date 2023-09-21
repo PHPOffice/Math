@@ -61,7 +61,7 @@ class MathML implements ReaderInterface
             case 'mfrac':
                 $element = new Element\Fraction();
                 $nodeList = $this->xpath->query('*', $nodeElement);
-                if ($nodeList->count() == 2) {
+                if ($nodeList->length == 2) {
                     $element
                         ->setNumerator($this->getElement($nodeList->item(0)))
                         ->setDenominator($this->getElement($nodeList->item(1)));
@@ -75,7 +75,7 @@ class MathML implements ReaderInterface
                 if (empty($nodeValue)) {
                     $nodeList = $this->xpath->query('*', $nodeElement);
                     if (
-                        $nodeList->count() == 1 
+                        $nodeList->length == 1 
                         && $nodeList->item(0)->nodeName == 'mchar'
                         && $nodeList->item(0)->hasAttribute('name')
                     ) {
@@ -88,7 +88,7 @@ class MathML implements ReaderInterface
             case 'msup':
                 $element = new Element\Superscript();
                 $nodeList = $this->xpath->query('*', $nodeElement);
-                if ($nodeList->count() == 2) {
+                if ($nodeList->length == 2) {
                     $element
                         ->setBase($this->getElement($nodeList->item(0)))
                         ->setSuperscript($this->getElement($nodeList->item(1)));

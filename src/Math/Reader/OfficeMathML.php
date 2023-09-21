@@ -67,7 +67,7 @@ class OfficeMathML implements ReaderInterface
                 $element = new Element\Fraction();
                 // Numerator
                 $nodeNumerator = $this->xpath->query('m:num/m:r/m:t', $nodeElement);
-                if ($nodeNumerator->count() == 1) {
+                if ($nodeNumerator->length == 1) {
                     $value = $nodeNumerator->item(0)->nodeValue;
                     if (is_numeric($value)) {
                         $element->setNumerator(new Element\Numeric($value));
@@ -77,7 +77,7 @@ class OfficeMathML implements ReaderInterface
                 }
                 // Denominator
                 $nodeDenominator= $this->xpath->query('m:den/m:r/m:t', $nodeElement);
-                if ($nodeDenominator->count() == 1) {
+                if ($nodeDenominator->length == 1) {
                     $value = $nodeDenominator->item(0)->nodeValue;
                     if (is_numeric($value)) {
                         $element->setDenominator(new Element\Numeric($value));
@@ -88,7 +88,7 @@ class OfficeMathML implements ReaderInterface
                 return $element;
             case 'm:r':
                 $nodeText = $this->xpath->query('m:t', $nodeElement);
-                if ($nodeText->count() == 1) {
+                if ($nodeText->length == 1) {
                     $value = trim($nodeText->item(0)->nodeValue);
                     if (in_array($value, $this->operators)) {
                         return new Element\Operator($value);
