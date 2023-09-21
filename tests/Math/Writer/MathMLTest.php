@@ -8,10 +8,10 @@ use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Writer\MathML;
 
-class MathMLTest extends WriterTestCase 
+class MathMLTest extends WriterTestCase
 {
     /**
-     * @covers MathML::write
+     * @covers \MathML::write
      */
     public function testWrite(): void
     {
@@ -31,18 +31,18 @@ class MathMLTest extends WriterTestCase
         $row->add($superscript);
 
         $row->add(new Element\Operator('+'));
-        
+
         $row->add(new Element\Identifier('b'));
         $row->add(clone $opTimes);
         $row->add(new Element\Identifier('x'));
-        
+
         $row->add(new Element\Operator('+'));
 
         $row->add(new Element\Identifier('c'));
 
         $writer = new MathML();
         $output = $writer->write($math);
-        
+
         $expected = '<?xml version="1.0" encoding="UTF-8"?>'
             . PHP_EOL
             . '<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">'
@@ -54,8 +54,9 @@ class MathMLTest extends WriterTestCase
         $this->assertEquals($expected, $output);
         $this->assertIsSchemaMathMLValid($output);
     }
+
     /**
-     * @covers OfficeMathML::write
+     * @covers \OfficeMathML::write
      */
     public function testWriteFraction(): void
     {
@@ -70,7 +71,7 @@ class MathMLTest extends WriterTestCase
 
         $writer = new MathML();
         $output = $writer->write($math);
-        
+
         $expected = '<?xml version="1.0" encoding="UTF-8"?>'
             . PHP_EOL
             . '<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">'

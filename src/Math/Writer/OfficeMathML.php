@@ -3,8 +3,8 @@
 namespace PhpOffice\Math\Writer;
 
 use Exception;
-use PhpOffice\Math\Math;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Math;
 use XMLWriter;
 
 class OfficeMathML implements WriterInterface
@@ -14,6 +14,7 @@ class OfficeMathML implements WriterInterface
 
     /**
      * @param Math $math
+     *
      * @return string
      */
     public function write(Math $math): string
@@ -43,6 +44,7 @@ class OfficeMathML implements WriterInterface
                 $this->writeElementItem($childElement);
             }
             $this->output->endElement();
+
             return;
         }
 
@@ -56,6 +58,7 @@ class OfficeMathML implements WriterInterface
             $this->writeElementItem($element->getDenominator());
             $this->output->endElement();
             $this->output->endElement();
+
             return;
         }
 
@@ -67,26 +70,24 @@ class OfficeMathML implements WriterInterface
         $this->output->endElement();
     }
 
-
     protected function getElementTagName(Element\AbstractElement $element): string
     {
         // Group
         if ($element instanceof Element\AbstractGroupElement) {
             throw new Exception(sprintf(
                 '%s : The element of the class `%s` has no tag name',
-                __METHOD__, 
+                __METHOD__,
                 get_class($element)
             ));
         }
 
-        //
         if ($element instanceof Element\Fraction) {
             return 'm:f';
         }
-        
+
         throw new Exception(sprintf(
             '%s : The element of the class `%s` has no tag name',
-            __METHOD__, 
+            __METHOD__,
             get_class($element)
         ));
     }

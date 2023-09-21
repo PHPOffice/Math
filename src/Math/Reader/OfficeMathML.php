@@ -6,8 +6,8 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Exception;
-use PhpOffice\Math\Math;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Math;
 
 class OfficeMathML implements ReaderInterface
 {
@@ -44,8 +44,8 @@ class OfficeMathML implements ReaderInterface
     }
 
     /**
-     * @link https://devblogs.microsoft.com/math-in-office/officemath/
-     * @link https://learn.microsoft.com/fr-fr/archive/blogs/murrays/mathml-and-ecma-math-omml
+     * @see https://devblogs.microsoft.com/math-in-office/officemath/
+     * @see https://learn.microsoft.com/fr-fr/archive/blogs/murrays/mathml-and-ecma-math-omml
      */
     protected function parseNode(?DOMElement $nodeRowElement, $parent): void
     {
@@ -76,7 +76,7 @@ class OfficeMathML implements ReaderInterface
                     }
                 }
                 // Denominator
-                $nodeDenominator= $this->xpath->query('m:den/m:r/m:t', $nodeElement);
+                $nodeDenominator = $this->xpath->query('m:den/m:r/m:t', $nodeElement);
                 if ($nodeDenominator->length == 1) {
                     $value = $nodeDenominator->item(0)->nodeValue;
                     if (is_numeric($value)) {
@@ -85,6 +85,7 @@ class OfficeMathML implements ReaderInterface
                         $element->setDenominator(new Element\Identifier($value));
                     }
                 }
+
                 return $element;
             case 'm:r':
                 $nodeText = $this->xpath->query('m:t', $nodeElement);
@@ -96,15 +97,16 @@ class OfficeMathML implements ReaderInterface
                     if (is_numeric($value)) {
                         return new Element\Numeric($value);
                     }
+
                     return new Element\Identifier($value);
                 }
                 break;
             case 'm:oMath':
                 return new Element\Row();
-            default: 
+            default:
                 throw new Exception(sprintf(
                     '%s : The tag `%s` is not implemented',
-                    __METHOD__, 
+                    __METHOD__,
                     $nodeElement->nodeName
                 ));
         }
