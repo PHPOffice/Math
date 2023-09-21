@@ -7,15 +7,15 @@ class Numeric extends AbstractElement
     /**
      * @var float
      */
-    protected $content;
+    protected $value;
 
-    public function __construct(float $content)
+    public function __construct(float $value)
     {
-        $this->content = $content;
+        $this->value = $value;
     }
 
-    public function getContent(): float
+    public function getValue(): float
     {
-        return $this->content;
+        return $this->value;
     }
 }

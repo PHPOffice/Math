@@ -62,7 +62,7 @@ class OfficeMathML implements WriterInterface
         // Element\AbstractElement
         $this->output->startElement('m:r');
         $this->output->startElement('m:t');
-        $this->output->text((string) $element->getContent());
+        $this->output->text((string) $element->getValue());
         $this->output->endElement();
         $this->output->endElement();
     }

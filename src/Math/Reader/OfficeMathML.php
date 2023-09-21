@@ -12,16 +12,28 @@ use PhpOffice\Math\Element;
 class OfficeMathML implements ReaderInterface
 {
     /** @var Math */
-    private $math;
+    protected $math;
 
     /** @var XMLReader */
-    private $xmlReader;
+    protected $xmlReader;
 
     /** @var DOMXpath */
-    private $xpath;
+    protected $xpath;
+
+    /** @var string[] */
+    protected $operators = ['+', '-', '/', '∗'];
 
     public function read(string $content): ?Math
     {
+        $nsMath = 'xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"';
+        $nsWord = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+
+        $content = str_replace(
+            $nsMath,
+            $nsMath . ' ' . $nsWord,
+            $content
+        );
+
         $this->dom = new DOMDocument();
         $this->dom->loadXML($content);
 
@@ -33,6 +45,7 @@ class OfficeMathML implements ReaderInterface
 
     /**
      * @link https://devblogs.microsoft.com/math-in-office/officemath/
+     * @link https://learn.microsoft.com/fr-fr/archive/blogs/murrays/mathml-and-ecma-math-omml
      */
     protected function parseNode(?DOMElement $nodeRowElement, $parent): void
     {
@@ -73,6 +86,19 @@ class OfficeMathML implements ReaderInterface
                     }
                 }
                 return $element;
+            case 'm:r':
+                $nodeText = $this->xpath->query('m:t', $nodeElement);
+                if ($nodeText->count() == 1) {
+                    $value = trim($nodeText->item(0)->nodeValue);
+                    if (in_array($value, $this->operators)) {
+                        return new Element\Operator($value);
+                    }
+                    if (is_numeric($value)) {
+                        return new Element\Numeric($value);
+                    }
+                    return new Element\Identifier($value);
+                }
+                break;
             case 'm:oMath':
                 return new Element\Row();
             default: 

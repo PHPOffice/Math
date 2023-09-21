@@ -7,15 +7,15 @@ class Identifier extends AbstractElement
     /**
      * @var string
      */
-    protected $content;
+    protected $value;
 
-    public function __construct(string $content)
+    public function __construct(string $value)
     {
-        $this->content = $content;
+        $this->value = $value;
     }
 
-    public function getContent(): string
+    public function getValue(): string
     {
-        return $this->content;
+        return $this->value;
     }
 }

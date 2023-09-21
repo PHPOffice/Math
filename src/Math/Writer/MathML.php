@@ -47,6 +47,15 @@ class MathML implements WriterInterface
             return;
         }
 
+        // Element\Superscript
+        if ($element instanceof Element\Superscript) {
+            $this->output->startElement($this->getElementTagName($element));
+            $this->writeElementItem($element->getBase());
+            $this->writeElementItem($element->getSuperscript());
+            $this->output->endElement();
+            return;
+        }
+
         // Element\Fraction
         if ($element instanceof Element\Fraction) {
             $this->output->startElement($this->getElementTagName($element));
@@ -58,7 +67,7 @@ class MathML implements WriterInterface
 
         // Element\AbstractElement
         $this->output->startElement($this->getElementTagName($element));
-        $this->output->text((string) $element->getContent());
+        $this->output->text((string) $element->getValue());
         $this->output->endElement();
     }
 
@@ -67,9 +76,6 @@ class MathML implements WriterInterface
         // Group
         if ($element instanceof Element\Row) {
             return 'mrow';
-        }
-        if ($element instanceof Element\Superscript) {
-            return 'msup';
         }
         if ($element instanceof Element\AbstractGroupElement) {
             throw new Exception(sprintf(
@@ -80,6 +86,9 @@ class MathML implements WriterInterface
         }
 
         //
+        if ($element instanceof Element\Superscript) {
+            return 'msup';
+        }
         if ($element instanceof Element\Fraction) {
             return 'mfrac';
         }

@@ -64,7 +64,7 @@ class WriterTestCase extends TestCase
                 $paramStr .= '   - ' . $key . ' : ' . $val . "\n";
             }
         }
-        self::fail(sprintf(
+        $this->fail(sprintf(
             "Validation %s :\n - File : %s\n - Line : %s\n - Message : %s - Lines :\n%s%s",
             $errorType,
             $fileName,

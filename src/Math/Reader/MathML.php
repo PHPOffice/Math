@@ -22,6 +22,16 @@ class MathML implements ReaderInterface
 
     public function read(string $content): ?Math
     {
+        $content = str_replace(
+            [
+                '&InvisibleTimes;',
+            ],
+            [
+                '<mchar name="InvisibleTimes"/>',
+            ],
+            $content
+        );
+
         $this->dom = new DOMDocument();
         $this->dom->loadXML($content, LIBXML_DTDLOAD);
 
@@ -46,6 +56,7 @@ class MathML implements ReaderInterface
 
     protected function getElement(DOMElement $nodeElement): Element\AbstractElement
     {
+        $nodeValue = trim($nodeElement->nodeValue);
         switch ($nodeElement->nodeName) {
             case 'mfrac':
                 $element = new Element\Fraction();
@@ -57,15 +68,32 @@ class MathML implements ReaderInterface
                 }
                 return $element;
             case 'mi':
-                return new Element\Identifier($nodeElement->nodeValue);
+                return new Element\Identifier($nodeValue);
             case 'mn':
-                return new Element\Numeric($nodeElement->nodeValue);
+                return new Element\Numeric($nodeValue);
             case 'mo':
-                return new Element\Operator($nodeElement->nodeValue);
+                if (empty($nodeValue)) {
+                    $nodeList = $this->xpath->query('*', $nodeElement);
+                    if (
+                        $nodeList->count() == 1 
+                        && $nodeList->item(0)->nodeName == 'mchar'
+                        && $nodeList->item(0)->hasAttribute('name')
+                    ) {
+                        $nodeValue = $nodeList->item(0)->getAttribute('name');
+                    }
+                }
+                return new Element\Operator($nodeValue);
             case 'mrow':
                 return new Element\Row();
             case 'msup':
-                return new Element\Superscript();
+                $element = new Element\Superscript();
+                $nodeList = $this->xpath->query('*', $nodeElement);
+                if ($nodeList->count() == 2) {
+                    $element
+                        ->setBase($this->getElement($nodeList->item(0)))
+                        ->setSuperscript($this->getElement($nodeList->item(1)));
+                }
+                return $element;
             default: 
                 throw new Exception(sprintf(
                     '%s : The tag `%s` is not implemented',

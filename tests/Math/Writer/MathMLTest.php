@@ -26,8 +26,8 @@ class MathMLTest extends WriterTestCase
         $row->add(clone $opTimes);
 
         $superscript = new Element\Superscript();
-        $superscript->add(new Element\Identifier('x'));
-        $superscript->add(new Element\Numeric(2));
+        $superscript->setBase(new Element\Identifier('x'));
+        $superscript->setSuperscript(new Element\Numeric(2));
         $row->add($superscript);
 
         $row->add(new Element\Operator('+'));
