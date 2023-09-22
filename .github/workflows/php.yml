@@ -16,7 +16,7 @@ jobs:
           php-version: '7.4'
           extensions: xml
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       -   name: Validate composer config
           run: composer validate --strict
@@ -52,7 +52,7 @@ jobs:
                 php-version: ${{ matrix.php }}
                 extensions: xml
 
-        -   uses: actions/checkout@v2
+        -   uses: actions/checkout@v4
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -83,7 +83,7 @@ jobs:
               extensions: xml
               coverage: ${{ (matrix.php == '7.1') && 'xdebug' || 'none' }}
 
-      -   uses: actions/checkout@v2
+      -   uses: actions/checkout@v4
 
       -   name: Install dependencies
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
