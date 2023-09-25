@@ -1,4 +1,4 @@
-name: PHPOffice/Math
+name: PHP
 on: 
     push:
         branches:
