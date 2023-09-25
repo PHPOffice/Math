@@ -2,7 +2,7 @@
 
 Math is a library written in pure PHP that provides a set of classes to manipulate different formula file formats, i.e. [MathML](https://en.wikipedia.org/wiki/MathML) and [Office MathML (OOML)](https://en.wikipedia.org/wiki/Office_Open_XML_file_formats#Office_MathML_(OMML)).
 
-Math is an open source project licensed under the terms of [MIT](https://github.com/PHPOffice/PHPWord/blob/master/LICENCE). Math is aimed to be a high quality software product by incorporating [continuous integration and unit testing](https://github.com/PHPOffice/Math/actions/workflows/php.yml). You can learn more about Math by reading this Developers'Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/)
+Math is an open source project licensed under the terms of [MIT](https://github.com/PHPOffice/Math/blob/master/LICENCE). Math is aimed to be a high quality software product by incorporating [continuous integration and unit testing](https://github.com/PHPOffice/Math/actions/workflows/php.yml). You can learn more about Math by reading this Developers'Documentation and the [API Documentation](http://phpoffice.github.io/Math/docs/develop/)
 
 ## Features
 
