@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\PhpOffice\Math\Writer;
 
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Writer\MathML;
 
 class MathMLTest extends WriterTestCase
 {
-    /**
-     * @covers \MathML::write
-     */
     public function testWrite(): void
     {
         $opTimes = new Element\Operator('&InvisibleTimes;');
@@ -25,9 +23,10 @@ class MathMLTest extends WriterTestCase
         $row->add(new Element\Identifier('a'));
         $row->add(clone $opTimes);
 
-        $superscript = new Element\Superscript();
-        $superscript->setBase(new Element\Identifier('x'));
-        $superscript->setSuperscript(new Element\Numeric(2));
+        $superscript = new Element\Superscript(
+            new Element\Identifier('x'),
+            new Element\Numeric(2)
+        );
         $row->add($superscript);
 
         $row->add(new Element\Operator('+'));
@@ -55,18 +54,14 @@ class MathMLTest extends WriterTestCase
         $this->assertIsSchemaMathMLValid($output);
     }
 
-    /**
-     * @covers \OfficeMathML::write
-     */
     public function testWriteFraction(): void
     {
         $math = new Math();
 
-        $fraction = new Element\Fraction();
-        $fraction
-            ->setDenominator(new Element\Numeric(2))
-            ->setNumerator(new Element\Identifier('π'))
-        ;
+        $fraction = new Element\Fraction(
+            new Element\Identifier('π'),
+            new Element\Numeric(2)
+        );
         $math->add($fraction);
 
         $writer = new MathML();
@@ -83,5 +78,27 @@ class MathMLTest extends WriterTestCase
             . PHP_EOL;
         $this->assertEquals($expected, $output);
         $this->assertIsSchemaMathMLValid($output);
+    }
+
+    public function testWriteNotImplemented(): void
+    {
+        $this->expectException(NotImplementedException::class);
+        if (method_exists($this, 'expectExceptionMessageRegExp')) {
+            $this->expectExceptionMessageRegExp('/PhpOffice\\\Math\\\Writer\\\MathML::getElementTagName : The element of the class/');
+            $this->expectExceptionMessageRegExp('/has no tag name/');
+        } else {
+            // @phpstan-ignore-next-line
+            $this->expectExceptionMessageMatches('/PhpOffice\\\Math\\\Writer\\\MathML::getElementTagName : The element of the class/');
+            // @phpstan-ignore-next-line
+            $this->expectExceptionMessageMatches('/has no tag name/');
+        }
+
+        $math = new Math();
+
+        $object = new class() extends Element\AbstractElement {};
+        $math->add($object);
+
+        $writer = new MathML();
+        $output = $writer->write($math);
     }
 }

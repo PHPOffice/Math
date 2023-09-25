@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace Tests\PhpOffice\Math\Reader;
 
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\InvalidInputException;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Reader\OfficeMathML;
 use PHPUnit\Framework\TestCase;
 
 class OfficeMathMLTest extends TestCase
 {
-    /**
-     * @covers \OfficeMathML::read
-     */
     public function testRead(): void
     {
         $content = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
         <m:oMath>
           <m:f>
-            <m:num><m:r><m:t>π</m:t></m:r></m:num>
-            <m:den><m:r><m:t>2</m:t></m:r></m:den>
+            <m:num><m:r><m:t>2</m:t></m:r></m:num>
+            <m:den><m:r><m:t>π</m:t></m:r></m:den>
           </m:f>
         </m:oMath>
       </m:oMathPara>';
@@ -44,18 +43,15 @@ class OfficeMathMLTest extends TestCase
 
         /** @var Element\Identifier $numerator */
         $numerator = $subElement->getNumerator();
-        $this->assertInstanceOf(Element\Identifier::class, $numerator);
-        $this->assertEquals('π', $numerator->getValue());
+        $this->assertInstanceOf(Element\Numeric::class, $numerator);
+        $this->assertEquals(2, $numerator->getValue());
 
         /** @var Element\Numeric $denominator */
         $denominator = $subElement->getDenominator();
-        $this->assertInstanceOf(Element\Numeric::class, $denominator);
-        $this->assertEquals(2, $denominator->getValue());
+        $this->assertInstanceOf(Element\Identifier::class, $denominator);
+        $this->assertEquals('π', $denominator->getValue());
     }
 
-    /**
-     * @covers \OfficeMathML::read
-     */
     public function testReadWithWTag(): void
     {
         $content = '<m:oMath xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
@@ -129,5 +125,73 @@ class OfficeMathMLTest extends TestCase
         $element = $elements[4];
         $this->assertInstanceOf(Element\Numeric::class, $element);
         $this->assertEquals(2, $element->getValue());
+    }
+
+    public function testReadFractionNoNumerator(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\OfficeMathML::getElement : The tag `m:f` has no numerator defined');
+
+        $content = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+          <m:oMath>
+            <m:f>
+              <m:den><m:r><m:t>2</m:t></m:r></m:den>
+            </m:f>
+          </m:oMath>
+        </m:oMathPara>';
+
+        $reader = new OfficeMathML();
+        $math = $reader->read($content);
+    }
+
+    public function testReadFractionNoDenominator(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\OfficeMathML::getElement : The tag `m:f` has no denominator defined');
+
+        $content = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+          <m:oMath>
+            <m:f>
+              <m:num><m:r><m:t>π</m:t></m:r></m:num>
+            </m:f>
+          </m:oMath>
+        </m:oMathPara>';
+
+        $reader = new OfficeMathML();
+        $math = $reader->read($content);
+    }
+
+    public function testReadBasicNoText(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\OfficeMathML::getElement : The tag `m:r` has no tag `m:t` defined');
+
+        $content = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+          <m:oMath>
+            <m:r>
+              a
+            </m:r>
+          </m:oMath>
+        </m:oMathPara>';
+
+        $reader = new OfficeMathML();
+        $math = $reader->read($content);
+    }
+
+    public function testReadNotImplemented(): void
+    {
+        $this->expectException(NotImplementedException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\OfficeMathML::getElement : The tag `m:mnotexisting` is not implemented');
+
+        $content = '<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+          <m:oMath>
+            <m:mnotexisting>
+              <m:num><m:r><m:t>π</m:t></m:r></m:num>
+            </m:mnotexisting>
+          </m:oMath>
+        </m:oMathPara>';
+
+        $reader = new OfficeMathML();
+        $math = $reader->read($content);
     }
 }

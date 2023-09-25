@@ -2,8 +2,8 @@
 
 namespace PhpOffice\Math\Writer;
 
-use Exception;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 use XMLWriter;
 
@@ -38,9 +38,11 @@ class MathML implements WriterInterface
 
     protected function writeElementItem(Element\AbstractElement $element): void
     {
+        $tagName = $this->getElementTagName($element);
+
         // Element\AbstractGroupElement
         if ($element instanceof Element\AbstractGroupElement) {
-            $this->output->startElement($this->getElementTagName($element));
+            $this->output->startElement($tagName);
             foreach ($element->getElements() as $childElement) {
                 $this->writeElementItem($childElement);
             }
@@ -51,7 +53,7 @@ class MathML implements WriterInterface
 
         // Element\Superscript
         if ($element instanceof Element\Superscript) {
-            $this->output->startElement($this->getElementTagName($element));
+            $this->output->startElement($tagName);
             $this->writeElementItem($element->getBase());
             $this->writeElementItem($element->getSuperscript());
             $this->output->endElement();
@@ -61,7 +63,7 @@ class MathML implements WriterInterface
 
         // Element\Fraction
         if ($element instanceof Element\Fraction) {
-            $this->output->startElement($this->getElementTagName($element));
+            $this->output->startElement($tagName);
             $this->writeElementItem($element->getNumerator());
             $this->writeElementItem($element->getDenominator());
             $this->output->endElement();
@@ -72,18 +74,20 @@ class MathML implements WriterInterface
         if ($element instanceof Element\Identifier
           || $element instanceof Element\Numeric
           || $element instanceof Element\Operator) {
-            $this->output->startElement($this->getElementTagName($element));
+            $this->output->startElement($tagName);
             $this->output->text((string) $element->getValue());
             $this->output->endElement();
 
             return;
         }
 
-        throw new Exception(sprintf(
+        /*
+        throw new NotImplementedException(sprintf(
             '%s : The class `%s` is not implemented',
             __METHOD__,
             get_class($element)
         ));
+        */
     }
 
     protected function getElementTagName(Element\AbstractElement $element): string
@@ -93,11 +97,13 @@ class MathML implements WriterInterface
             return 'mrow';
         }
         if ($element instanceof Element\AbstractGroupElement) {
-            throw new Exception(sprintf(
+            /*
+            throw new NotImplementedException(sprintf(
                 '%s : The element of the class `%s` has no tag name',
                 __METHOD__,
                 get_class($element)
             ));
+            */
         }
 
         if ($element instanceof Element\Superscript) {
@@ -116,7 +122,7 @@ class MathML implements WriterInterface
             return 'mo';
         }
 
-        throw new Exception(sprintf(
+        throw new NotImplementedException(sprintf(
             '%s : The element of the class `%s` has no tag name',
             __METHOD__,
             get_class($element)

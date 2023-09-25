@@ -6,8 +6,9 @@ use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMXPath;
-use Exception;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\InvalidInputException;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 
 class MathML implements ReaderInterface
@@ -74,15 +75,19 @@ class MathML implements ReaderInterface
         $nodeValue = trim($nodeElement->nodeValue);
         switch ($nodeElement->nodeName) {
             case 'mfrac':
-                $element = new Element\Fraction();
                 $nodeList = $this->xpath->query('*', $nodeElement);
                 if ($nodeList && $nodeList->length == 2) {
-                    $element
-                        ->setNumerator($this->getElement($nodeList->item(0)))
-                        ->setDenominator($this->getElement($nodeList->item(1)));
+                    return new Element\Fraction(
+                        $this->getElement($nodeList->item(0)),
+                        $this->getElement($nodeList->item(1))
+                    );
                 }
 
-                return $element;
+                throw new InvalidInputException(sprintf(
+                    '%s : The tag `%s` has not two subelements',
+                    __METHOD__,
+                    $nodeElement->nodeName
+                ));
             case 'mi':
                 return new Element\Identifier($nodeValue);
             case 'mn':
@@ -105,19 +110,23 @@ class MathML implements ReaderInterface
             case 'mrow':
                 return new Element\Row();
             case 'msup':
-                $element = new Element\Superscript();
                 $nodeList = $this->xpath->query('*', $nodeElement);
                 if ($nodeList && $nodeList->length == 2) {
-                    $element
-                        ->setBase($this->getElement($nodeList->item(0)))
-                        ->setSuperscript($this->getElement($nodeList->item(1)));
+                    return new Element\Superscript(
+                        $this->getElement($nodeList->item(0)),
+                        $this->getElement($nodeList->item(1))
+                    );
                 }
 
-                return $element;
+                throw new InvalidInputException(sprintf(
+                    '%s : The tag `%s` has not two subelements',
+                    __METHOD__,
+                    $nodeElement->nodeName
+                ));
             case 'semantics':
                 return new Element\Semantics();
             default:
-                throw new Exception(sprintf(
+                throw new NotImplementedException(sprintf(
                     '%s : The tag `%s` is not implemented',
                     __METHOD__,
                     $nodeElement->nodeName

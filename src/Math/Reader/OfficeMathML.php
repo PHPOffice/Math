@@ -5,8 +5,9 @@ namespace PhpOffice\Math\Reader;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
-use Exception;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\InvalidInputException;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 
 class OfficeMathML implements ReaderInterface
@@ -66,29 +67,40 @@ class OfficeMathML implements ReaderInterface
     {
         switch ($nodeElement->nodeName) {
             case 'm:f':
-                $element = new Element\Fraction();
                 // Numerator
                 $nodeNumerator = $this->xpath->query('m:num/m:r/m:t', $nodeElement);
                 if ($nodeNumerator && $nodeNumerator->length == 1) {
                     $value = $nodeNumerator->item(0)->nodeValue;
                     if (is_numeric($value)) {
-                        $element->setNumerator(new Element\Numeric(floatval($value)));
+                        $numerator = new Element\Numeric(floatval($value));
                     } else {
-                        $element->setNumerator(new Element\Identifier($value));
+                        $numerator = new Element\Identifier($value);
                     }
+                } else {
+                    throw new InvalidInputException(sprintf(
+                        '%s : The tag `%s` has no numerator defined',
+                        __METHOD__,
+                        $nodeElement->nodeName
+                    ));
                 }
                 // Denominator
                 $nodeDenominator = $this->xpath->query('m:den/m:r/m:t', $nodeElement);
                 if ($nodeDenominator && $nodeDenominator->length == 1) {
                     $value = $nodeDenominator->item(0)->nodeValue;
                     if (is_numeric($value)) {
-                        $element->setDenominator(new Element\Numeric(floatval($value)));
+                        $denominator = new Element\Numeric(floatval($value));
                     } else {
-                        $element->setDenominator(new Element\Identifier($value));
+                        $denominator = new Element\Identifier($value);
                     }
+                } else {
+                    throw new InvalidInputException(sprintf(
+                        '%s : The tag `%s` has no denominator defined',
+                        __METHOD__,
+                        $nodeElement->nodeName
+                    ));
                 }
 
-                return $element;
+                return new Element\Fraction($numerator, $denominator);
             case 'm:r':
                 $nodeText = $this->xpath->query('m:t', $nodeElement);
                 if ($nodeText && $nodeText->length == 1) {
@@ -103,11 +115,15 @@ class OfficeMathML implements ReaderInterface
                     return new Element\Identifier($value);
                 }
 
-                return new Element\Identifier('');
+                throw new InvalidInputException(sprintf(
+                    '%s : The tag `%s` has no tag `m:t` defined',
+                    __METHOD__,
+                    $nodeElement->nodeName
+                ));
             case 'm:oMath':
                 return new Element\Row();
             default:
-                throw new Exception(sprintf(
+                throw new NotImplementedException(sprintf(
                     '%s : The tag `%s` is not implemented',
                     __METHOD__,
                     $nodeElement->nodeName
