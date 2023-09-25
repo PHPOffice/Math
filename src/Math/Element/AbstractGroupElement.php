@@ -12,7 +12,6 @@ abstract class AbstractGroupElement extends AbstractElement
     public function add(AbstractElement $element): self
     {
         $this->elements[] = $element;
-        $element->setParent($this);
 
         return $this;
     }
@@ -22,8 +21,6 @@ abstract class AbstractGroupElement extends AbstractElement
         $this->elements = array_filter($this->elements, function ($child) use ($element) {
             return $child != $element;
         });
-
-        $element->setParent(null);
 
         return $this;
     }

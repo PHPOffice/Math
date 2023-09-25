@@ -2,8 +2,8 @@
 
 namespace PhpOffice\Math\Writer;
 
-use Exception;
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 use XMLWriter;
 
@@ -37,13 +37,11 @@ class OfficeMathML implements WriterInterface
 
     protected function writeElementItem(Element\AbstractElement $element): void
     {
-        // Element\AbstractGroupElement
-        if ($element instanceof Element\AbstractGroupElement) {
-            $this->output->startElement($this->getElementTagName($element));
+        // Element\Row
+        if ($element instanceof Element\Row) {
             foreach ($element->getElements() as $childElement) {
                 $this->writeElementItem($childElement);
             }
-            $this->output->endElement();
 
             return;
         }
@@ -74,29 +72,28 @@ class OfficeMathML implements WriterInterface
             return;
         }
 
-        throw new Exception(sprintf(
-            '%s : The class `%s` is not implemented',
-            __METHOD__,
-            get_class($element)
-        ));
+        // Check if managed
+        $this->getElementTagName($element);
     }
 
     protected function getElementTagName(Element\AbstractElement $element): string
     {
         // Group
         if ($element instanceof Element\AbstractGroupElement) {
-            throw new Exception(sprintf(
+            /*
+            throw new NotImplementedException(sprintf(
                 '%s : The element of the class `%s` has no tag name',
                 __METHOD__,
                 get_class($element)
             ));
+            */
         }
 
         if ($element instanceof Element\Fraction) {
             return 'm:f';
         }
 
-        throw new Exception(sprintf(
+        throw new NotImplementedException(sprintf(
             '%s : The element of the class `%s` has no tag name',
             __METHOD__,
             get_class($element)

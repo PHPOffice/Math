@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Tests\PhpOffice\Math\Reader;
 
 use PhpOffice\Math\Element;
+use PhpOffice\Math\Exception\InvalidInputException;
+use PhpOffice\Math\Exception\NotImplementedException;
 use PhpOffice\Math\Math;
 use PhpOffice\Math\Reader\MathML;
 use PHPUnit\Framework\TestCase;
 
 class MathMLTest extends TestCase
 {
-    /**
-     * @covers \MathML::read
-     */
     public function testReadBasic(): void
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>
@@ -94,9 +93,6 @@ class MathMLTest extends TestCase
         $this->assertEquals('c', $subElement->getValue());
     }
 
-    /**
-     * @covers \MathML::read
-     */
     public function testReadFraction(): void
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>
@@ -152,9 +148,40 @@ class MathMLTest extends TestCase
         $this->assertEquals('d', $denominator->getValue());
     }
 
-    /**
-     * @covers \MathML::read
-     */
+    public function testReadFractionInvalid(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\MathML::getElement : The tag `mfrac` has not two subelements');
+
+        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mfrac>
+                <mi> a </mi>
+            </mfrac>
+        </math>';
+
+        $reader = new MathML();
+        $math = $reader->read($content);
+    }
+
+    public function testReadSuperscriptInvalid(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\MathML::getElement : The tag `msup` has not two subelements');
+
+        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <msup>
+                <mi> a </mi>
+            </msup>
+        </math>';
+
+        $reader = new MathML();
+        $math = $reader->read($content);
+    }
+
     public function testReadSemantics(): void
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>
@@ -195,5 +222,22 @@ class MathMLTest extends TestCase
         // Check Annotation
         $this->assertCount(1, $element->getAnnotations());
         $this->assertEquals('{π} over {2}  + { a } * 2', $element->getAnnotation('StarMath 5.0'));
+    }
+
+    public function testReadNotImplemented(): void
+    {
+        $this->expectException(NotImplementedException::class);
+        $this->expectExceptionMessage('PhpOffice\Math\Reader\MathML::getElement : The tag `mnotexisting` is not implemented');
+
+        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mnotexisting>
+                <mi> a </mi>
+            </mnotexisting>
+        </math>';
+
+        $reader = new MathML();
+        $math = $reader->read($content);
     }
 }

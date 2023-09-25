@@ -14,6 +14,12 @@ class Fraction extends AbstractElement
      */
     protected $numerator;
 
+    public function __construct(AbstractElement $numerator, AbstractElement $denominator)
+    {
+        $this->setNumerator($numerator);
+        $this->setDenominator($denominator);
+    }
+
     public function getDenominator(): AbstractElement
     {
         return $this->denominator;

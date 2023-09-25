@@ -14,6 +14,12 @@ class Superscript extends AbstractElement
      */
     protected $superscript;
 
+    public function __construct(AbstractElement $base, AbstractElement $superscript)
+    {
+        $this->setBase($base);
+        $this->setSuperscript($superscript);
+    }
+
     public function getBase(): AbstractElement
     {
         return $this->base;

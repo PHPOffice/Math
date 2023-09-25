@@ -81,7 +81,7 @@ jobs:
           with:
               php-version: ${{ matrix.php }}
               extensions: xml
-              coverage: ${{ (matrix.php == '7.1') && 'xdebug' || 'none' }}
+              coverage: ${{ (matrix.php == '8.1') && 'xdebug' || 'none' }}
 
       -   uses: actions/checkout@v4
 
@@ -89,15 +89,15 @@ jobs:
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
       -   name: Run PHPUnit
-          if: matrix.php != '7.1'
+          if: matrix.php != '8.1'
           run: ./vendor/bin/phpunit -c phpunit.xml.dist
 
       -   name: Run PHPUnit (w CodeCoverage)
-          if: matrix.php == '7.1'
-          run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
+          if: matrix.php == '8.1'
+          run: XDEBUG_MODE=coverage ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
 
       -   name: Upload coverage results to Coveralls
-          if: matrix.php == '7.1'
+          if: matrix.php == '8.1'
           env:
             COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
