@@ -19,7 +19,7 @@ class MathML implements ReaderInterface
     /** @var DOMDocument */
     private $dom;
 
-    /** @var DOMXpath */
+    /** @var DOMXPath */
     private $xpath;
 
     public function read(string $content): ?Math
@@ -48,7 +48,7 @@ class MathML implements ReaderInterface
      */
     protected function parseNode(?DOMNode $nodeRowElement, $parent): void
     {
-        $this->xpath = new DOMXpath($this->dom);
+        $this->xpath = new DOMXPath($this->dom);
         foreach ($this->xpath->query('*', $nodeRowElement) ?: [] as $nodeElement) {
             if ($parent instanceof Element\Semantics
                 && $nodeElement instanceof DOMElement
