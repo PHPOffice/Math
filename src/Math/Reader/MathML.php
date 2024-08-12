@@ -61,12 +61,7 @@ class MathML implements ReaderInterface
                 continue;
             }
 
-            $element = $this->getElement($nodeElement);
-            $parent->add($element);
-
-            if ($element instanceof Element\AbstractGroupElement) {
-                $this->parseNode($nodeElement, $element);
-            }
+            $parent->add($this->getElement($nodeElement));
         }
     }
 
@@ -108,7 +103,11 @@ class MathML implements ReaderInterface
 
                 return new Element\Operator($nodeValue);
             case 'mrow':
-                return new Element\Row();
+                $mrow = new Element\Row();
+
+                $this->parseNode($nodeElement, $mrow);
+
+                return $mrow;
             case 'msup':
                 $nodeList = $this->xpath->query('*', $nodeElement);
                 if ($nodeList && $nodeList->length == 2) {
@@ -124,7 +123,11 @@ class MathML implements ReaderInterface
                     $nodeElement->nodeName
                 ));
             case 'semantics':
-                return new Element\Semantics();
+                $semantics = new Element\Semantics();
+
+                $this->parseNode($nodeElement, $semantics);
+
+                return $semantics;
             default:
                 throw new NotImplementedException(sprintf(
                     '%s : The tag `%s` is not implemented',
