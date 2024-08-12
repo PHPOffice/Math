@@ -26,6 +26,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://phpoffice.github.io/Math/changes/0.3.0.html</loc>
+         <lastmod>2024-08-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://phpoffice.github.io/Math/usage/readers.html</loc>
          <lastmod>2024-08-12</lastmod>
          <changefreq>daily</changefreq>
