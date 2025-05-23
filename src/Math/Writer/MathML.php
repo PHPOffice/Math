@@ -122,6 +122,10 @@ class MathML implements WriterInterface
             return 'mo';
         }
 
+        if ($element instanceof Element\Semantics) {
+            return 'semantics';
+        }
+
         throw new NotImplementedException(sprintf(
             '%s : The element of the class `%s` has no tag name',
             __METHOD__,
