@@ -216,6 +216,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-Math-Exception-NotImplementedException.html"
         },                {
+            "fqsen": "\\PhpOffice\\Math\\Exception\\SecurityException",
+            "name": "SecurityException",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Exception-SecurityException.html"
+        },                {
             "fqsen": "\\PhpOffice\\Math\\Math",
             "name": "Math",
             "summary": "",
@@ -225,6 +230,11 @@ Search.appendIndex(
             "name": "MathML",
             "summary": "",
             "url": "classes/PhpOffice-Math-Reader-MathML.html"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\MathML\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Reader-MathML.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\Math\\Reader\\MathML\u003A\u003Aread\u0028\u0029",
             "name": "read",
@@ -255,6 +265,11 @@ Search.appendIndex(
             "name": "xpath",
             "summary": "",
             "url": "classes/PhpOffice-Math-Reader-MathML.html#property_xpath"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\MathML\u003A\u003A\u0024xmlScanner",
+            "name": "xmlScanner",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Reader-MathML.html#property_xmlScanner"
         },                {
             "fqsen": "\\PhpOffice\\Math\\Reader\\OfficeMathML",
             "name": "OfficeMathML",
@@ -305,6 +320,21 @@ Search.appendIndex(
             "name": "read",
             "summary": "",
             "url": "classes/PhpOffice-Math-Reader-ReaderInterface.html#method_read"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\Security\\XmlScanner",
+            "name": "XmlScanner",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Reader-Security-XmlScanner.html"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\Security\\XmlScanner\u003A\u003AgetInstance\u0028\u0029",
+            "name": "getInstance",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Reader-Security-XmlScanner.html#method_getInstance"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\Security\\XmlScanner\u003A\u003Ascan\u0028\u0029",
+            "name": "scan",
+            "summary": "Scan\u0020the\u0020XML\u0020for\u0020use\u0020of\u0020\u003C\u0021ENTITY\u0020to\u0020prevent\u0020XXE\/XEE\u0020attacks.",
+            "url": "classes/PhpOffice-Math-Reader-Security-XmlScanner.html#method_scan"
         },                {
             "fqsen": "\\PhpOffice\\Math\\Writer\\MathML",
             "name": "MathML",
@@ -395,6 +425,11 @@ Search.appendIndex(
             "name": "Reader",
             "summary": "",
             "url": "namespaces/phpoffice-math-reader.html"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\Security",
+            "name": "Security",
+            "summary": "",
+            "url": "namespaces/phpoffice-math-reader-security.html"
         },                {
             "fqsen": "\\PhpOffice\\Math\\Writer",
             "name": "Writer",
