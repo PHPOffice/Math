@@ -336,6 +336,11 @@ Search.appendIndex(
             "summary": "Scan\u0020the\u0020XML\u0020for\u0020use\u0020of\u0020\u003C\u0021ENTITY\u0020to\u0020prevent\u0020XXE\/XEE\u0020attacks.",
             "url": "classes/PhpOffice-Math-Reader-Security-XmlScanner.html#method_scan"
         },                {
+            "fqsen": "\\PhpOffice\\Math\\Reader\\Security\\XmlScanner\u003A\u003Amb_str_split\u0028\u0029",
+            "name": "mb_str_split",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Reader-Security-XmlScanner.html#method_mb_str_split"
+        },                {
             "fqsen": "\\PhpOffice\\Math\\Writer\\MathML",
             "name": "MathML",
             "summary": "",
