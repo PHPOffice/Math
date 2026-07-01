@@ -16,7 +16,7 @@ jobs:
           php-version: '7.4'
           extensions: xml
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       -   name: Validate composer config
           run: composer validate --strict
@@ -54,7 +54,7 @@ jobs:
                 php-version: ${{ matrix.php }}
                 extensions: xml
 
-        -   uses: actions/checkout@v6
+        -   uses: actions/checkout@v7
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -87,7 +87,7 @@ jobs:
               extensions: xml
               coverage: ${{ (matrix.php == '8.1') && 'xdebug' || 'none' }}
 
-      -   uses: actions/checkout@v6
+      -   uses: actions/checkout@v7
 
       -   name: Install dependencies
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -113,7 +113,7 @@ jobs:
     name: Roave Backwards Compatibility Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: "Check for BC breaks"
