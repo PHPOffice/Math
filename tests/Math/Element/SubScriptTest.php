@@ -39,7 +39,7 @@ class SubScriptTest extends TestCase
         $this->assertEquals($identifierO, $subScript->getBase());
 
         $this->assertInstanceOf(
-            SubScript::class,
+            Subscript::class,
             $subScript->setBase($identifierN)
         );
 
@@ -60,7 +60,7 @@ class SubScriptTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            SubScript::class,
+            Subscript::class,
             $subScript->setSubscript($identifier3)
         );
 
