@@ -306,4 +306,147 @@ class MathMLTest extends TestCase
         $reader = new MathML();
         $math = $reader->read($content);
     }
+
+
+    public function testReadSubscript(): void
+    {
+        $content = <<<'XML'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <msub>
+        <mi>O</mi>
+        <mn>2</mn>
+    </msub>
+</math>
+XML;
+
+        $math = (new MathML())->read($content);
+
+        $this->assertInstanceOf(Math::class, $math);
+        $this->assertCount(1, $math->getElements());
+
+        $subscript = $math->getElements()[0];
+
+        $this->assertInstanceOf(Element\Subscript::class, $subscript);
+        $this->assertInstanceOf(Element\Identifier::class, $subscript->getBase());
+        $this->assertEquals('O', $subscript->getBase()->getValue());
+        $this->assertInstanceOf(Element\Numeric::class, $subscript->getSubscript());
+        $this->assertEquals(2, $subscript->getSubscript()->getValue());
+    }
+
+    public function testReadSubscriptWithRow(): void
+    {
+        $content = <<<'XML'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <msub>
+        <mrow>
+            <mi>a</mi>
+            <mo>+</mo>
+            <mi>b</mi>
+        </mrow>
+        <mn>2</mn>
+    </msub>
+</math>
+XML;
+
+        $math = (new MathML())->read($content);
+        $this->assertInstanceOf(Math::class, $math);
+
+        $subscript = $math->getElements()[0];
+
+        $this->assertInstanceOf(Element\Subscript::class, $subscript);
+        $this->assertInstanceOf(Element\Row::class, $subscript->getBase());
+        $this->assertCount(3, $subscript->getBase()->getElements());
+        $this->assertInstanceOf(Element\Numeric::class, $subscript->getSubscript());
+    }
+
+    public function testReadSubscriptInvalid(): void
+    {
+        $this->expectException(InvalidInputException::class);
+        $this->expectExceptionMessage(
+            'The tag `msub` must have two subelements'
+        );
+
+        $content = <<<'XML'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <msub>
+        <mi>O</mi>
+    </msub>
+</math>
+XML;
+
+        (new MathML())->read($content);
+    }
+
+    public function testReadNestedSubscript(): void
+    {
+        $content = <<<'XML'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <msub>
+        <msub>
+            <mi>a</mi>
+            <mi>b</mi>
+        </msub>
+        <mn>2</mn>
+    </msub>
+</math>
+XML;
+
+        $math = (new MathML())->read($content);
+        $outer = $math->getElements()[0];
+
+        $this->assertInstanceOf(Element\Subscript::class, $outer);
+        $this->assertInstanceOf(
+            Element\Subscript::class,
+            $outer->getBase()
+        );
+        $this->assertEquals(
+            'a',
+            $outer->getBase()->getBase()->getValue()
+        );
+        $this->assertEquals(
+            'b',
+            $outer->getBase()->getSubscript()->getValue()
+        );
+        $this->assertEquals(
+            2,
+            $outer->getSubscript()->getValue()
+        );
+    }
+
+    public function testReadSubscriptAndSuperscript(): void
+    {
+        $content = <<<'XML'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <msup>
+        <msub>
+            <mi>x</mi>
+            <mi>i</mi>
+        </msub>
+        <mn>2</mn>
+    </msup>
+</math>
+XML;
+
+        $math = (new MathML())->read($content);
+        $superscript = $math->getElements()[0];
+
+        $this->assertInstanceOf(Element\Superscript::class, $superscript);
+        $this->assertInstanceOf(
+            Element\Subscript::class,
+            $superscript->getBase()
+        );
+        $this->assertEquals(
+            'x',
+            $superscript->getBase()->getBase()->getValue()
+        );
+        $this->assertEquals(
+            'i',
+            $superscript->getBase()->getSubscript()->getValue()
+        );
+        $this->assertEquals(
+            2,
+            $superscript->getSuperscript()->getValue()
+        );
+    }
+
 }

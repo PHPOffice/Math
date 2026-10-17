@@ -81,6 +81,16 @@ class MathML implements WriterInterface
             return;
         }
 
+        // Element\Subscript
+        if ($element instanceof Element\Subscript) {
+            $this->output->startElement($tagName);
+            $this->writeElementItem($element->getBase());
+            $this->writeElementItem($element->getSubscript());
+            $this->output->endElement();
+
+            return;
+        }
+
         // Element\Fraction
         if ($element instanceof Element\Fraction) {
             $this->output->startElement($tagName);
@@ -128,6 +138,9 @@ class MathML implements WriterInterface
 
         if ($element instanceof Element\Superscript) {
             return 'msup';
+        }
+        if ($element instanceof Element\Subscript) {
+            return 'msub';
         }
         if ($element instanceof Element\Fraction) {
             return 'mfrac';

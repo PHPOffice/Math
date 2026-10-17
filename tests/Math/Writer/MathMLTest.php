@@ -130,4 +130,57 @@ class MathMLTest extends WriterTestCase
         $writer = new MathML();
         $output = $writer->write($math);
     }
+
+    public function testWriteSubscript(): void
+    {
+        $math = new Math();
+
+        $subscript = new Element\Subscript(
+            new Element\Identifier('O'),
+            new Element\Numeric(2)
+        );
+
+        $math->add($subscript);
+
+        $writer = new MathML();
+        $output = $writer->write($math);
+
+        $expected = '<?xml version="1.0" encoding="UTF-8"?>'
+            . PHP_EOL
+            . '<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">'
+            . '<math xmlns="http://www.w3.org/1998/Math/MathML">'
+            . '<msub><mi>O</mi><mn>2</mn></msub>'
+            . '</math>'
+            . PHP_EOL;
+
+        $this->assertEquals($expected, $output);
+        $this->assertIsSchemaMathMLValid($output);
+    }
+
+    public function testWriteNestedSubscript(): void
+    {
+        $math = new Math();
+
+        $inner = new Element\Subscript(
+            new Element\Identifier('a'),
+            new Element\Numeric(1)
+        );
+
+        $outer = new Element\Subscript(
+            $inner,
+            new Element\Numeric(2)
+        );
+
+        $math->add($outer);
+
+        $writer = new MathML();
+        $output = $writer->write($math);
+
+        $this->assertStringContainsString(
+            '<msub><msub><mi>a</mi><mn>1</mn></msub><mn>2</mn></msub>',
+            $output
+        );
+
+        $this->assertIsSchemaMathMLValid($output);
+    }
 }

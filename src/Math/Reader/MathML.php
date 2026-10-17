@@ -132,6 +132,21 @@ class MathML implements ReaderInterface
                     __METHOD__,
                     $nodeElement->nodeName
                 ));
+            case 'msub':
+                $nodeList = $this->xpath->query('*', $nodeElement);
+
+                if ($nodeList && $nodeList->length === 2) {
+                    return new Element\Subscript(
+                        $this->getElement($nodeList->item(0)),
+                        $this->getElement($nodeList->item(1))
+                    );
+                }
+
+                throw new InvalidInputException(sprintf(
+                    '%s : The tag `%s` must have two subelements',
+                    __METHOD__,
+                    $nodeElement->nodeName
+                ));
             case 'semantics':
                 $semantics = new Element\Semantics();
 
