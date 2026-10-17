@@ -348,14 +348,25 @@ XML;
 XML;
 
         $math = (new MathML())->read($content);
+
         $this->assertInstanceOf(Math::class, $math);
 
+        /** @var Element\Subscript $subscript */
         $subscript = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Subscript::class, $subscript);
-        $this->assertInstanceOf(Element\Row::class, $subscript->getBase());
-        $this->assertCount(3, $subscript->getBase()->getElements());
-        $this->assertInstanceOf(Element\Numeric::class, $subscript->getSubscript());
+
+        /** @var Element\Row $base */
+        $base = $subscript->getBase();
+
+        $this->assertInstanceOf(Element\Row::class, $base);
+        $this->assertCount(3, $base->getElements());
+
+        /** @var Element\Numeric $subscriptValue */
+        $subscriptValue = $subscript->getSubscript();
+
+        $this->assertInstanceOf(Element\Numeric::class, $subscriptValue);
+        $this->assertSame(2.0, $subscriptValue->getValue());
     }
 
     public function testReadSubscriptInvalid(): void
@@ -391,15 +402,24 @@ XML;
 XML;
 
         $math = (new MathML())->read($content);
+
+        /** @var Element\Subscript $outer */
         $outer = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Subscript::class, $outer);
 
+        /** @var Element\Subscript $base */
         $base = $outer->getBase();
+
         $this->assertInstanceOf(Element\Subscript::class, $base);
 
+        /** @var Element\Identifier $baseElement */
         $baseElement = $base->getBase();
+
+        /** @var Element\Identifier $subscriptElement */
         $subscriptElement = $base->getSubscript();
+
+        /** @var Element\Numeric $outerSubscriptElement */
         $outerSubscriptElement = $outer->getSubscript();
 
         $this->assertInstanceOf(Element\Identifier::class, $baseElement);
@@ -426,15 +446,24 @@ XML;
 XML;
 
         $math = (new MathML())->read($content);
+
+        /** @var Element\Superscript $superscript */
         $superscript = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Superscript::class, $superscript);
 
+        /** @var Element\Subscript $base */
         $base = $superscript->getBase();
+
         $this->assertInstanceOf(Element\Subscript::class, $base);
 
+        /** @var Element\Identifier $baseElement */
         $baseElement = $base->getBase();
+
+        /** @var Element\Identifier $subscriptElement */
         $subscriptElement = $base->getSubscript();
+
+        /** @var Element\Numeric $superscriptElement */
         $superscriptElement = $superscript->getSuperscript();
 
         $this->assertInstanceOf(Element\Identifier::class, $baseElement);
