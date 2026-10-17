@@ -307,7 +307,6 @@ class MathMLTest extends TestCase
         $math = $reader->read($content);
     }
 
-
     public function testReadSubscript(): void
     {
         $content = <<<'XML'
@@ -395,22 +394,21 @@ XML;
         $outer = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Subscript::class, $outer);
-        $this->assertInstanceOf(
-            Element\Subscript::class,
-            $outer->getBase()
-        );
-        $this->assertEquals(
-            'a',
-            $outer->getBase()->getBase()->getValue()
-        );
-        $this->assertEquals(
-            'b',
-            $outer->getBase()->getSubscript()->getValue()
-        );
-        $this->assertEquals(
-            2,
-            $outer->getSubscript()->getValue()
-        );
+
+        $base = $outer->getBase();
+        $this->assertInstanceOf(Element\Subscript::class, $base);
+
+        $baseElement = $base->getBase();
+        $subscriptElement = $base->getSubscript();
+        $outerSubscriptElement = $outer->getSubscript();
+
+        $this->assertInstanceOf(Element\Identifier::class, $baseElement);
+        $this->assertInstanceOf(Element\Identifier::class, $subscriptElement);
+        $this->assertInstanceOf(Element\Numeric::class, $outerSubscriptElement);
+
+        $this->assertSame('a', $baseElement->getValue());
+        $this->assertSame('b', $subscriptElement->getValue());
+        $this->assertSame('2', $outerSubscriptElement->getValue());
     }
 
     public function testReadSubscriptAndSuperscript(): void
@@ -431,22 +429,20 @@ XML;
         $superscript = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Superscript::class, $superscript);
-        $this->assertInstanceOf(
-            Element\Subscript::class,
-            $superscript->getBase()
-        );
-        $this->assertEquals(
-            'x',
-            $superscript->getBase()->getBase()->getValue()
-        );
-        $this->assertEquals(
-            'i',
-            $superscript->getBase()->getSubscript()->getValue()
-        );
-        $this->assertEquals(
-            2,
-            $superscript->getSuperscript()->getValue()
-        );
-    }
 
+        $base = $superscript->getBase();
+        $this->assertInstanceOf(Element\Subscript::class, $base);
+
+        $baseElement = $base->getBase();
+        $subscriptElement = $base->getSubscript();
+        $superscriptElement = $superscript->getSuperscript();
+
+        $this->assertInstanceOf(Element\Identifier::class, $baseElement);
+        $this->assertInstanceOf(Element\Identifier::class, $subscriptElement);
+        $this->assertInstanceOf(Element\Numeric::class, $superscriptElement);
+
+        $this->assertSame('x', $baseElement->getValue());
+        $this->assertSame('i', $subscriptElement->getValue());
+        $this->assertSame('2', $superscriptElement->getValue());
+    }
 }
