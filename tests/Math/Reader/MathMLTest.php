@@ -323,13 +323,22 @@ XML;
         $this->assertInstanceOf(Math::class, $math);
         $this->assertCount(1, $math->getElements());
 
+        /** @var Element\Subscript $subscript */
         $subscript = $math->getElements()[0];
 
         $this->assertInstanceOf(Element\Subscript::class, $subscript);
-        $this->assertInstanceOf(Element\Identifier::class, $subscript->getBase());
-        $this->assertEquals('O', $subscript->getBase()->getValue());
-        $this->assertInstanceOf(Element\Numeric::class, $subscript->getSubscript());
-        $this->assertEquals(2, $subscript->getSubscript()->getValue());
+
+        /** @var Element\Identifier $base */
+        $base = $subscript->getBase();
+
+        $this->assertInstanceOf(Element\Identifier::class, $base);
+        $this->assertSame('O', $base->getValue());
+
+        /** @var Element\Numeric $subscriptValue */
+        $subscriptValue = $subscript->getSubscript();
+
+        $this->assertInstanceOf(Element\Numeric::class, $subscriptValue);
+        $this->assertSame(2.0, $subscriptValue->getValue());
     }
 
     public function testReadSubscriptWithRow(): void
