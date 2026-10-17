@@ -408,7 +408,7 @@ XML;
 
         $this->assertSame('a', $baseElement->getValue());
         $this->assertSame('b', $subscriptElement->getValue());
-        $this->assertSame('2', $outerSubscriptElement->getValue());
+        $this->assertSame(2.0, $outerSubscriptElement->getValue());
     }
 
     public function testReadSubscriptAndSuperscript(): void
@@ -443,6 +443,6 @@ XML;
 
         $this->assertSame('x', $baseElement->getValue());
         $this->assertSame('i', $subscriptElement->getValue());
-        $this->assertSame('2', $superscriptElement->getValue());
+        $this->assertSame(2.0, $superscriptElement->getValue());
     }
 }
