@@ -35,6 +35,7 @@ Math is an open source project licensed under the terms of [MIT](https://github.
 |                           | Numeric              | :material-check: | :material-check: |
 | **Simple**                | Fraction             | :material-check: | :material-check: |
 |                           | Superscript          | :material-check: |                  |
+|                           | Subscript            | :material-check: |                  |
 | **Architectural**         | Row                  | :material-check: |                  |
 |                           | Semantics            | :material-check: |                  |
 
@@ -47,6 +48,7 @@ Math is an open source project licensed under the terms of [MIT](https://github.
 |                           | Numeric              | :material-check: | :material-check: |
 | **Simple**                | Fraction             | :material-check: | :material-check: |
 |                           | Superscript          | :material-check: |                  |
+|                           | Subscript            | :material-check: |                  |
 | **Architectural**         | Row                  | :material-check: | :material-check: |
 |                           | Semantics            | :material-check: |                  |
 
