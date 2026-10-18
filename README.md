@@ -34,11 +34,12 @@ Read more about Math:
     
         * Fraction : <math display="inline"><mfrac><mi>a</mi><mn>3</mn></mfrac></math>
         * Superscript : <math display="inline"><msup><mi>a</mi><mn>3</mn></msup></math>
+        * Subscript : <math display="inline"><msub><mi>a</mi><mn>3</mn></msub></math>
 
-    * Architectural :
+  * Architectural :
 
-        * Row
-        * Semantics
+      * Row
+      * Semantics
 
 - Support
 

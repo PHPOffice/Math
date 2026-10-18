@@ -45,7 +45,7 @@ nav:
   - Introduction: 'index.md'
   - Install: 'install.md'
   - Usage:
-    - Elements: 
+    - Elements:
       - Fraction: 'usage/elements/fraction.md'
       - Identifier: 'usage/elements/identifier.md'
       - Numeric: 'usage/elements/numeric.md'
@@ -53,6 +53,7 @@ nav:
       - Row: 'usage/elements/row.md'
       - Semantics: 'usage/elements/semantics.md'
       - Superscript: 'usage/elements/superscript.md'
+      - Subscript: 'usage/elements/subscript.md'
     - Readers: 'usage/readers.md'
     - Writers: 'usage/writers.md'
   - Credits: 'credits.md'
