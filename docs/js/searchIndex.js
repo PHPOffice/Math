@@ -161,6 +161,46 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-Math-Element-Semantics.html#property_annotations"
         },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript",
+            "name": "Subscript",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#method___construct"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003AgetBase\u0028\u0029",
+            "name": "getBase",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#method_getBase"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003AgetSubscript\u0028\u0029",
+            "name": "getSubscript",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#method_getSubscript"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003AsetBase\u0028\u0029",
+            "name": "setBase",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#method_setBase"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003AsetSubscript\u0028\u0029",
+            "name": "setSubscript",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#method_setSubscript"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003A\u0024base",
+            "name": "base",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#property_base"
+        },                {
+            "fqsen": "\\PhpOffice\\Math\\Element\\Subscript\u003A\u003A\u0024subscript",
+            "name": "subscript",
+            "summary": "",
+            "url": "classes/PhpOffice-Math-Element-Subscript.html#property_subscript"
+        },                {
             "fqsen": "\\PhpOffice\\Math\\Element\\Superscript",
             "name": "Superscript",
             "summary": "",

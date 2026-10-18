@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://phpoffice.github.io/Math/usage/readers.html">
       
       
-        <link rel="prev" href="elements/superscript.html">
+        <link rel="prev" href="elements/subscript.html">
       
       
         <link rel="next" href="writers.html">
@@ -558,6 +558,34 @@
     
   
     Superscript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="elements/subscript.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subscript
   
 
     
@@ -1177,11 +1205,11 @@
 
 <span class="nv">$reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MathML</span><span class="p">();</span>
 <span class="nv">$math</span> <span class="o">=</span> <span class="nv">$reader</span><span class="o">-&gt;</span><span class="na">read</span><span class="p">(</span>
-   <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="s1">    &lt;!DOCTYPE math PUBLIC &quot;-//W3C//DTD MathML 2.0//EN&quot; &quot;http://www.w3.org/Math/DTD/mathml2/mathml2.dtd&quot;&gt;</span>
-<span class="s1">    &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+   <span class="s1">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="s1">    &lt;!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd"&gt;</span>
+<span class="s1">    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;</span>
 <span class="s1">        &lt;mi&gt; a &lt;/mi&gt;</span>
-<span class="s1">    &lt;/math&gt;&#39;</span>
+<span class="s1">    &lt;/math&gt;'</span>
 <span class="p">);</span>
 </code></pre></div>
 <h3 id="officemathml">OfficeMathML</h3>
@@ -1192,14 +1220,14 @@
 
 <span class="nv">$reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OfficeMathML</span><span class="p">();</span>
 <span class="nv">$math</span> <span class="o">=</span> <span class="nv">$reader</span><span class="o">-&gt;</span><span class="na">read</span><span class="p">(</span>
-   <span class="s1">&#39;&lt;m:oMathPara xmlns:m=&quot;http://schemas.openxmlformats.org/officeDocument/2006/math&quot;&gt;</span>
+   <span class="s1">'&lt;m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"&gt;</span>
 <span class="s1">      &lt;m:oMath&gt;</span>
 <span class="s1">        &lt;m:f&gt;</span>
 <span class="s1">          &lt;m:num&gt;&lt;m:r&gt;&lt;m:t&gt;π&lt;/m:t&gt;&lt;/m:r&gt;&lt;/m:num&gt;</span>
 <span class="s1">          &lt;m:den&gt;&lt;m:r&gt;&lt;m:t&gt;2&lt;/m:t&gt;&lt;/m:r&gt;&lt;/m:den&gt;</span>
 <span class="s1">        &lt;/m:f&gt;</span>
 <span class="s1">      &lt;/m:oMath&gt;</span>
-<span class="s1">    &lt;/m:oMathPara&gt;&#39;</span>
+<span class="s1">    &lt;/m:oMathPara&gt;'</span>
 <span class="p">);</span>
 </code></pre></div>
 <h2 id="methods">Methods</h2>

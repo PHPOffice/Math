@@ -766,6 +766,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="subscript.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subscript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1380,11 +1408,11 @@ The method has one parameter : </p>
 </math>
 
 <h3 id="xml">XML</h3>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;math</span><span class="w"> </span><span class="na">display=</span><span class="s">&quot;block&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;math</span><span class="w"> </span><span class="na">display=</span><span class="s">"block"</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="nt">&lt;semantics&gt;</span>
 <span class="w">    </span><span class="nt">&lt;mi&gt;</span>y<span class="nt">&lt;/mi&gt;</span>
 
-<span class="w">    </span><span class="nt">&lt;annotation</span><span class="w"> </span><span class="na">encoding=</span><span class="s">&quot;application/x-tex&quot;</span><span class="nt">&gt;</span><span class="w"> </span>y<span class="w"> </span><span class="nt">&lt;/annotation&gt;</span>
+<span class="w">    </span><span class="nt">&lt;annotation</span><span class="w"> </span><span class="na">encoding=</span><span class="s">"application/x-tex"</span><span class="nt">&gt;</span><span class="w"> </span>y<span class="w"> </span><span class="nt">&lt;/annotation&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/semantics&gt;</span>
 <span class="nt">&lt;/math&gt;</span>
 </code></pre></div>
@@ -1397,8 +1425,8 @@ The method has one parameter : </p>
 <span class="nv">$math</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Math</span><span class="p">();</span>
 
 <span class="nv">$semantics</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element\Semantics</span><span class="p">();</span>
-<span class="nv">$semantics</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Element\Identifier</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">));</span>
-<span class="nv">$semantics</span><span class="o">-&gt;</span><span class="na">addAnnotation</span><span class="p">(</span><span class="s1">&#39;application/x-tex&#39;</span><span class="p">,</span> <span class="s1">&#39; y &#39;</span><span class="p">);</span>
+<span class="nv">$semantics</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Element\Identifier</span><span class="p">(</span><span class="s1">'y'</span><span class="p">));</span>
+<span class="nv">$semantics</span><span class="o">-&gt;</span><span class="na">addAnnotation</span><span class="p">(</span><span class="s1">'application/x-tex'</span><span class="p">,</span> <span class="s1">' y '</span><span class="p">);</span>
 
 <span class="nv">$math</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$semantics</span><span class="p">);</span>
 </code></pre></div>
