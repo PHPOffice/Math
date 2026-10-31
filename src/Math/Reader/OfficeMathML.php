@@ -24,6 +24,14 @@ class OfficeMathML implements ReaderInterface
     /** @var string[] */
     protected $operators = ['+', '-', '/', '∗'];
 
+    /** @var bool */
+    private static $ignoreUnsupportedElements = false;
+
+    public static function setIgnoreUnsupportedElements(bool $ignore): void
+    {
+        self::$ignoreUnsupportedElements = $ignore;
+    }
+
     public function read(string $content): ?Math
     {
         $nsMath = 'xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"';
@@ -54,7 +62,15 @@ class OfficeMathML implements ReaderInterface
     {
         $this->xpath = new DOMXPath($this->dom);
         foreach ($this->xpath->query('*', $nodeRowElement) ?: [] as $nodeElement) {
-            $element = $this->getElement($nodeElement);
+            try {
+                $element = $this->getElement($nodeElement);
+            } catch (NotImplementedException $exception) {
+                if (!self::$ignoreUnsupportedElements) {
+                    throw $exception;
+                }
+
+                continue;
+            }
             $parent->add($element);
 
             if ($element instanceof Element\AbstractGroupElement) {
