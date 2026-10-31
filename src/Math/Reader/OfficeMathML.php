@@ -37,11 +37,22 @@ class OfficeMathML implements ReaderInterface
         $nsMath = 'xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"';
         $nsWord = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
 
-        $content = str_replace(
-            $nsMath,
-            $nsMath . ' ' . $nsWord,
-            $content
-        );
+        if (strpos($content, $nsMath) !== false) {
+            $content = str_replace(
+                $nsMath,
+                $nsMath . ' ' . $nsWord,
+                $content
+            );
+        } else {
+            // Namespace declarations may be inherited from the parent document
+            // and therefore missing when parsing an extracted <m:oMath> fragment.
+            $content = preg_replace(
+                '/<m:oMath(?=[\s>])/',
+                '<m:oMath ' . $nsMath . ' ' . $nsWord,
+                $content,
+                1
+            );
+        }
 
         $this->dom = new DOMDocument();
         $this->dom->loadXML($content);
